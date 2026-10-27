@@ -6,6 +6,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\NgendevVideoCategoryController;
 use App\Http\Controllers\NgendevVideoController;
+use App\Http\Controllers\SecureMediaController;
+use App\Http\Middleware\ProtectAdminMediaUrls;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,16 +28,22 @@ Route::get('login',  [LoginController::class, 'showLoginForm'])->name('login')->
 Route::post('login', [LoginController::class, 'login'])->middleware('guest:admin');
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
-// Protected admin dashboard
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+// ── Admin area: auth-gated + media URLs encrypted on every page ────────────
+Route::middleware(['auth:admin', ProtectAdminMediaUrls::class])->group(function () {
 
-// Legacy /home redirect
-Route::get('/home', function () {
-    return redirect()->route('dashboard');
-})->name('home');
+    // Encrypted media stream endpoint (sits behind the admin guard).
+    Route::get('/secure-media', [SecureMediaController::class, 'stream'])->name('admin.secure-media');
+
+    // Protected admin dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Legacy /home redirect
+    Route::get('/home', function () {
+        return redirect()->route('dashboard');
+    })->name('home');
 
 // ── Ngendev Video Category Management ──────────────────────────────────────
-Route::middleware('auth:admin')->prefix('ngendev')->name('ngendev.')->group(function () {
+Route::prefix('ngendev')->name('ngendev.')->group(function () {
 
     // Categories
     Route::get('categories/reindex', [NgendevVideoCategoryController::class, 'reindex'])->name('categories.reindex');
@@ -48,6 +56,8 @@ Route::middleware('auth:admin')->prefix('ngendev')->name('ngendev.')->group(func
     // Videos
     Route::get('videos/reindex', [NgendevVideoController::class, 'reindex'])->name('videos.reindex');
     Route::post('videos/update-name-change', [NgendevVideoController::class, 'updateNameChange'])->name('videos.updateNameChange');
+    // Hardened blob stream: no media URL in the page; auth + CSRF gated.
+    Route::post('videos/{video}/stream', [NgendevVideoController::class, 'stream'])->name('videos.stream');
     Route::resource('videos', NgendevVideoController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
 
     // API List
@@ -55,3 +65,5 @@ Route::middleware('auth:admin')->prefix('ngendev')->name('ngendev.')->group(func
         return view('ngendev.api_list.index');
     })->name('api.list');
 });
+
+}); // end admin area group

@@ -248,5 +248,8 @@
     Swal.fire({ icon: 'error', title: 'Error', text: @json(session('error')), showConfirmButton: true, customClass: { popup: 'ngd-swal-popup' } });
   </script>
   @endif
+
+  {{-- Admin media protection engine (module-agnostic) --}}
+  <script src="{{ asset('js/admin-media-protect.js') }}?v={{ file_exists(public_path('js/admin-media-protect.js')) ? filemtime(public_path('js/admin-media-protect.js')) : time() }}"></script>
 </body>
 </html>

@@ -83,8 +83,8 @@
             </td>
             <td>
               @if($video->video_path && $video->category)
-                <a href="{{ asset('upload/ngendev/videos/' . $video->category->category_name . '/category_video/' . $video->video_path) }}"
-                   target="_blank" class="video-btn" title="Play video">
+                <a href="javascript:void(0)" class="video-btn" title="Play video"
+                   data-stream-url="{{ route('ngendev.videos.stream', $video->id) }}">
                   <i class="fas fa-play"></i>
                 </a>
               @else

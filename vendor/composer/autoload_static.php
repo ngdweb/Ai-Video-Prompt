@@ -35,6 +35,7 @@ class ComposerStaticInit7b56bfb5d21eaae286e532c3ed2f8941
         'c72349b1fe8d0deeedd3a52e8aa814d8' => __DIR__ . '/..' . '/mockery/mockery/library/helpers.php',
         'ce9671a430e4846b44e1c68c7611f9f5' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
+        'b4e3f29b106af37a2bb239f73cdf68c7' => __DIR__ . '/../..' . '/app/helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -516,10 +517,13 @@ class ComposerStaticInit7b56bfb5d21eaae286e532c3ed2f8941
         'App\\Http\\Controllers\\NgendevSettingController' => __DIR__ . '/../..' . '/app/Http/Controllers/NgendevSettingController.php',
         'App\\Http\\Controllers\\NgendevVideoCategoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/NgendevVideoCategoryController.php',
         'App\\Http\\Controllers\\NgendevVideoController' => __DIR__ . '/../..' . '/app/Http/Controllers/NgendevVideoController.php',
+        'App\\Http\\Controllers\\SecureMediaController' => __DIR__ . '/../..' . '/app/Http/Controllers/SecureMediaController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
+        'App\\Http\\Middleware\\NgendevApiAuth' => __DIR__ . '/../..' . '/app/Http/Middleware/NgendevApiAuth.php',
         'App\\Http\\Middleware\\PreventRequestsDuringMaintenance' => __DIR__ . '/../..' . '/app/Http/Middleware/PreventRequestsDuringMaintenance.php',
+        'App\\Http\\Middleware\\ProtectAdminMediaUrls' => __DIR__ . '/../..' . '/app/Http/Middleware/ProtectAdminMediaUrls.php',
         'App\\Http\\Middleware\\RedirectIfAuthenticated' => __DIR__ . '/../..' . '/app/Http/Middleware/RedirectIfAuthenticated.php',
         'App\\Http\\Middleware\\TrimStrings' => __DIR__ . '/../..' . '/app/Http/Middleware/TrimStrings.php',
         'App\\Http\\Middleware\\TrustHosts' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustHosts.php',
@@ -535,6 +539,7 @@ class ComposerStaticInit7b56bfb5d21eaae286e532c3ed2f8941
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\Support\\SecureMediaHelper' => __DIR__ . '/../..' . '/app/Support/SecureMediaHelper.php',
         'Asm89\\Stack\\Cors' => __DIR__ . '/..' . '/asm89/stack-cors/src/Cors.php',
         'Asm89\\Stack\\CorsService' => __DIR__ . '/..' . '/asm89/stack-cors/src/CorsService.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',

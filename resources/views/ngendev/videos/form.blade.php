@@ -130,8 +130,8 @@
           <label class="form-label">Video File</label>
           @if($isEdit && $video->video_path && $video->category)
             <div class="mb-2 d-flex align-items-center gap-2">
-              <a href="{{ asset('upload/ngendev/videos/' . $video->category->category_name . '/category_video/' . $video->video_path) }}"
-                 target="_blank" class="video-btn" title="Play current video">
+              <a href="javascript:void(0)" class="video-btn" title="Play current video"
+                 data-stream-url="{{ route('ngendev.videos.stream', $video->id) }}">
                 <i class="fas fa-play"></i>
               </a>
               <span class="file-hint">Current: {{ $video->video_path }}</span>

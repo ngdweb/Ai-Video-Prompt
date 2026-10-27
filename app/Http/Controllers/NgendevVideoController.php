@@ -13,6 +13,46 @@ class NgendevVideoController extends Controller
         $this->middleware('auth:admin');
     }
 
+    /**
+     * Stream a video's bytes to the browser without ever exposing a media URL.
+     * Reached only via an authenticated + CSRF-protected POST, so there is nothing
+     * in the page to copy and nothing that streams without an admin session.
+     */
+    public function stream(NgendevVideo $video)
+    {
+        if (!$video->video_path || !$video->category) {
+            abort(404, 'Video not found.');
+        }
+
+        $relativePath = 'upload/ngendev/videos/'
+            . $video->category->category_name
+            . '/category_video/'
+            . $video->video_path;
+
+        $realUploadRoot = realpath(public_path('upload'));
+        $realTarget     = realpath(public_path($relativePath));
+
+        if (!$realTarget || !$realUploadRoot || !str_starts_with($realTarget, $realUploadRoot) || !is_file($realTarget)) {
+            abort(404, 'Video file not found.');
+        }
+
+        $extension = strtolower(pathinfo($realTarget, PATHINFO_EXTENSION));
+        $mimeMap = [
+            'mp4' => 'video/mp4', 'mov' => 'video/quicktime',
+            'avi' => 'video/x-msvideo', 'wmv' => 'video/x-ms-wmv', 'webm' => 'video/webm',
+        ];
+        $mimeType = $mimeMap[$extension] ?? (mime_content_type($realTarget) ?: 'application/octet-stream');
+
+        return response()->file($realTarget, [
+            'Content-Type'           => $mimeType,
+            'Cache-Control'          => 'private, no-cache, no-store, must-revalidate',
+            'Pragma'                 => 'no-cache',
+            'Expires'                => '0',
+            'X-Content-Type-Options' => 'nosniff',
+            'Content-Disposition'    => 'inline',
+        ]);
+    }
+
     public function index(Request $request)
     {
         $categories = NgendevVideoCategory::orderBy('category_name')->get();
